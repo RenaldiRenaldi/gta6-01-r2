@@ -1,0 +1,5 @@
+import * as THREE from '../vendor/three.module.min.js';
+export function createDayNight(scene){const sun=new THREE.DirectionalLight(0xffedc7,3);sun.position.set(30,60,20);scene.add(sun);const ambient=new THREE.HemisphereLight(0xa9d9ec,0x756b59,1.3);scene.add(ambient);const lamps=[];for(let x=-3;x<=3;x+=3)for(let z=-3;z<=3;z+=3){let l=new THREE.PointLight(0xffbd68,0,55);l.position.set(x*34+5,4,z*34+5);scene.add(l);lamps.push(l)}return{hour:16.7,sun,ambient,lamps,neons:[]}}
+export function updateDay(d,dt,world){d.hour=(d.hour+dt*.045)%24;let daylight=Math.max(0,Math.sin((d.hour-6)/12*Math.PI));d.sun.intensity=.15+daylight*2.8;d.sun.position.set(Math.cos(d.hour/24*Math.PI*2)*60,Math.max(5,daylight*70),Math.sin(d.hour/24*Math.PI*2)*60);d.ambient.intensity=.22+daylight*1.15;for(const l of d.lamps)l.intensity=daylight<.28?1.3:0;for(const s of world.signs){s.material.emissiveIntensity=daylight<.4?2:.25}return d.hour}
+export function setTime(d,h){d.hour=h%24}
+// R2 revision pass: time advances continuously and switches the city's practical lighting.

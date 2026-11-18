@@ -1,0 +1,2 @@
+export function weatherFor(season){return season===3?'SNOW':season===0?'LIGHT RAIN':season===2?'GOLDEN WIND':'CLEAR'}export function updateWeather(state,dt){state.weatherTimer=(state.weatherTimer||0)+dt;if(state.weatherTimer>95){state.weatherTimer=0;state.weather=['CLEAR','LIGHT RAIN','FOG','THUNDERSTORM'][Math.floor(Math.random()*4)]}if(state.weather==='THUNDERSTORM'&&Math.random()<dt*.08)state.flash=.25;if(state.flash>0)state.flash-=dt;}
+// R2 revision pass: weather state is local, lightweight, and affects the visible atmosphere.
